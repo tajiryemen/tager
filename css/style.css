@@ -1,0 +1,101 @@
+/* Core Styles */
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --background-color: #f4f4f4;
+  --error-color: #e74c3c;
+  --font-family-base: Arial, sans-serif;
+}
+
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+header, footer {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 1em 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1em;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  padding: 1em 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: normal;
+}
+
+a {
+  color: var(--primary-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+form {
+  margin: 1em 0;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+button {
+  padding: 0.6em 1em;
+  border: none;
+  border-radius: 4px;
+  background: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--secondary-color);
+}
+
+/* Validation styles */
+.error {
+  border-color: var(--error-color);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875em;
+}
+
