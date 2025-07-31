@@ -7,13 +7,16 @@ if (!is_logged_in()) {
     exit;
 }
 
+$categories = get_categories();
+
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = sanitize($_POST['title'] ?? '');
     $desc  = sanitize($_POST['description'] ?? '');
     $price = sanitize($_POST['price'] ?? '');
-    if ($title && $desc && $price !== '') {
-        if (add_ad($title, $desc, $price)) {
+    $category_id = (int)($_POST['category_id'] ?? 0);
+    if ($title && $desc && $price !== '' && $category_id) {
+        if (add_ad($title, $desc, $price, $category_id)) {
             header('Location: ads.php');
             exit;
         } else {
@@ -37,6 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p style="color:red;"><?php echo $error; ?></p>
     <?php endif; ?>
     <form method="post">
+        <label>Category:
+            <select name="category_id">
+                <option value="">Select category</option>
+                <?php foreach ($categories as $cat): ?>
+                    <option value="<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label><br>
         <label>Title: <input type="text" name="title"></label><br>
         <label>Description:<br><textarea name="description"></textarea></label><br>
         <label>Price: <input type="text" name="price"></label><br>

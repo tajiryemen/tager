@@ -34,21 +34,45 @@ function logout(): void {
     session_destroy();
 }
 
-function add_ad(string $title, string $description, string $price): bool {
+function add_ad(string $title, string $description, string $price, int $category_id): bool {
     $pdo = get_db_connection();
-    $stmt = $pdo->prepare('INSERT INTO ads (user_id, title, description, price) VALUES (?, ?, ?, ?)');
-    return $stmt->execute([$_SESSION['user_id'], $title, $description, $price]);
+    $stmt = $pdo->prepare('INSERT INTO ads (user_id, category_id, title, description, price) VALUES (?, ?, ?, ?, ?)');
+    return $stmt->execute([
+        $_SESSION['user_id'],
+        $category_id,
+        $title,
+        $description,
+        $price
+    ]);
 }
 
-function get_ads(): array {
+function get_ads(?int $category_id = null): array {
     $pdo = get_db_connection();
-    $stmt = $pdo->query('SELECT * FROM ads ORDER BY created_at DESC');
+    if ($category_id) {
+        $stmt = $pdo->prepare('SELECT * FROM ads WHERE category_id = ? ORDER BY created_at DESC');
+        $stmt->execute([$category_id]);
+    } else {
+        $stmt = $pdo->query('SELECT * FROM ads ORDER BY created_at DESC');
+    }
     return $stmt->fetchAll();
 }
 
 function get_ad(int $id) {
     $pdo = get_db_connection();
     $stmt = $pdo->prepare('SELECT * FROM ads WHERE id = ?');
+    $stmt->execute([$id]);
+    return $stmt->fetch();
+}
+
+function get_categories(): array {
+    $pdo = get_db_connection();
+    $stmt = $pdo->query('SELECT * FROM categories ORDER BY name');
+    return $stmt->fetchAll();
+}
+
+function get_category(int $id) {
+    $pdo = get_db_connection();
+    $stmt = $pdo->prepare('SELECT * FROM categories WHERE id = ?');
     $stmt->execute([$id]);
     return $stmt->fetch();
 }

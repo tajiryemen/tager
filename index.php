@@ -2,6 +2,7 @@
 session_start();
 require_once 'includes/functions.php';
 
+$categories = get_categories();
 $ads = get_ads();
 ?>
 <!DOCTYPE html>
@@ -21,6 +22,13 @@ $ads = get_ads();
     <?php else: ?>
         <p><a href="login.php">Login</a> | <a href="register.php">Register</a></p>
     <?php endif; ?>
+
+    <h2>Categories</h2>
+    <ul>
+    <?php foreach ($categories as $cat): ?>
+        <li><a href="ads.php?category=<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></a></li>
+    <?php endforeach; ?>
+    </ul>
 
     <h2>Latest Ads</h2>
     <ul>
